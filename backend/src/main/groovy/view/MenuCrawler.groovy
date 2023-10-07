@@ -1,7 +1,6 @@
 package view
 
 import model.ComponenteTISS
-import org.apache.tools.ant.taskdefs.Local
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import service.CrawlerTISSService
@@ -17,9 +16,9 @@ class MenuCrawler {
 
         while (true) {
             println("Opções de Scraping")
-            println("1. Download dos Componentes")
+            println("1. Download Componente de Comunicação")
             println("2. Visualizar Histórico de Versões")
-            println("3. Download Tabelas Relacionadas")
+            println("3. Download Tabela de Erros no Envio ANS")
             println("4. Sair")
 
             int opcaoMenu = scanner.nextInt()
@@ -27,8 +26,7 @@ class MenuCrawler {
 
             switch (opcaoMenu) {
                 case 1:
-                    downloadComponents()
-
+                    downloadCommunicationComponent()
                     break
                 case 2:
                     def url = CrawlerTISSService.getUrl("p.callout:nth-of-type(4) a.external-link", URL_MAIN)
@@ -36,9 +34,7 @@ class MenuCrawler {
                     versionHistory(document)
                     break
                 case 3:
-
-                    println(new ComponenteTISS(dateConversionMonth("jan/2023"), dateConversion("1/1/2023"), dateConversion("1/1/2023")))
-
+                    downloadTableErrorANS()
                     break
                 case 4:
                     return
@@ -51,7 +47,7 @@ class MenuCrawler {
 
     }
 
-    static void downloadComponents() {
+    static void downloadCommunicationComponent() {
 
         String url = CrawlerTISSService.getUrl("p.callout:nth-of-type(3) a.external-link", URL_MAIN)
         Document document = CrawlerTISSService.getConnect(url)
@@ -61,8 +57,17 @@ class MenuCrawler {
         String href = td.select("a").attr("href")
 
         CrawlerTISSService.downloadFile(href)
+    }
 
+    static void downloadTableErrorANS() {
 
+        String url = CrawlerTISSService.getUrl("p.callout:nth-of-type(5) a", URL_MAIN)
+        Document document = CrawlerTISSService.getConnect(url)
+
+        Element span = document.select("p.callout:nth-of-type(1) a").first()
+        String href = span.select("a").attr("href")
+
+        CrawlerTISSService.downloadFile(href)
     }
 
     static void versionHistory(Document document) {
@@ -77,7 +82,6 @@ class MenuCrawler {
                 println(new ComponenteTISS(referenceDate,
                         publication, beginning))
             }
-
         }
     }
 
@@ -119,5 +123,4 @@ class MenuCrawler {
         return dateConversion
 
     }
-
 }
