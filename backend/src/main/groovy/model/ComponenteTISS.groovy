@@ -14,7 +14,6 @@ class ComponenteTISS {
         this.inicioVigencia = inicioVigencia
     }
 
-
     @Override
     public String toString() {
         return "ComponentesTISS{" +
