@@ -1,25 +1,27 @@
 package model
 
+import groovy.transform.ToString
+
+import java.time.LocalDate
+
+@ToString
 class ComponenteTISS {
 
-    String competencia
-    String publicacao
-    String inicioVigencia
+    LocalDate referenceDate
+    LocalDate publication
+    LocalDate beginning
 
-    ComponenteTISS(String competencia,
-                   String publicacao,
-                   String inicioVigencia) {
-        this.competencia = competencia
-        this.publicacao = publicacao
-        this.inicioVigencia = inicioVigencia
+    ComponenteTISS(LocalDate referenceDate,
+                   LocalDate publication,
+                   LocalDate beginning) {
+
+        this.referenceDate = referenceDate
+        this.publication = publication
+        this.beginning = beginning
     }
 
     @Override
     public String toString() {
-        return "ComponentesTISS{" +
-                "competencia='" + competencia + '\'' +
-                ", publicacao=" + publicacao +
-                ", inicioVigencia=" + inicioVigencia +
-                '}';
+        return "|Competência: ${this.referenceDate.getMonthValue()}/${this.referenceDate.getYear()}\t|Início Vigência: ${this.beginning.getDayOfMonth()}/${this.beginning.getMonthValue()}/${this.beginning.getYear()}\t|Publicação: ${this.publication.getDayOfMonth()}/${this.publication.getMonthValue()}/${this.publication.getYear()}"
     }
 }

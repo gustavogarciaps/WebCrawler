@@ -1,9 +1,12 @@
 package view
 
 import model.ComponenteTISS
+import org.apache.tools.ant.taskdefs.Local
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import service.CrawlerTISSService
+
+import java.time.LocalDate
 
 class MenuCrawler {
 
@@ -33,6 +36,9 @@ class MenuCrawler {
                     versionHistory(document)
                     break
                 case 3:
+
+                    println(new ComponenteTISS(dateConversionMonth("jan/2023"), dateConversion("1/1/2023"), dateConversion("1/1/2023")))
+
                     break
                 case 4:
                     return
@@ -63,11 +69,55 @@ class MenuCrawler {
 
         for (Element row in document.select("table tbody tr")) {
 
-            String competencia = row.select("td:nth-of-type(1)").text()
-            String publicacao = row.select("td:nth-of-type(2)").text()
-            String inicioVigencia = row.select("td:nth-of-type(3)").text()
+            LocalDate referenceDate = dateConversionMonth(row.select("td:nth-of-type(1)").text())
+            LocalDate publication = dateConversion(row.select("td:nth-of-type(2)").text())
+            LocalDate beginning = dateConversion(row.select("td:nth-of-type(3)").text())
 
-            println(new ComponenteTISS(competencia, publicacao, inicioVigencia))
+            if (referenceDate >= LocalDate.of(2016, 1, 1)) {
+                println(new ComponenteTISS(referenceDate,
+                        publication, beginning))
+            }
+
         }
     }
+
+
+    static LocalDate dateConversion(String date) {
+
+        def day = date.split("/")[0]
+        def month = date.split("/")[1]
+        def year = date.split("/")[2]
+
+        LocalDate dateConversion = LocalDate.of(year.toInteger(), month.toInteger(), day.toInteger())
+
+        return dateConversion;
+    }
+
+    static LocalDate dateConversionMonth(String date) {
+        def day = 1
+        def monthAbbreviation = date.split("/")[0]
+        def year = date.split("/")[1]
+
+        def monthMap = [
+                "jan": 1,
+                "fev": 2,
+                "mar": 3,
+                "abr": 4,
+                "mai": 5,
+                "jun": 6,
+                "jul": 7,
+                "ago": 8,
+                "set": 9,
+                "out": 10,
+                "nov": 11,
+                "dez": 12
+        ]
+
+        def monthInteger = monthMap[monthAbbreviation?.toLowerCase()]
+
+        LocalDate dateConversion = LocalDate.of(year.toInteger(), monthInteger, day)
+        return dateConversion
+
+    }
+
 }
