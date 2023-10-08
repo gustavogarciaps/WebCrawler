@@ -14,13 +14,22 @@ dependencies {
     // Http Builder Core
     implementation 'io.github.http-builder-ng:http-builder-ng-core:1.0.4'
     implementation 'org.slf4j:slf4j-api:1.7.5'
-    implementation 'org.slf4j:slf4j-log4j12:1.7.29'
+    implementation 'org.slf4j:slf4j-log4j12:1.5.0'
 
     // jsoup HTML parser library @ https://jsoup.org/
     implementation 'org.jsoup:jsoup:1.16.1'
 
     // open csv
-    implementation 'com.opencsv:opencsv:5.7.1'
+    implementation 'com.opencsv:opencsv:4.4'
+
+    implementation "com.elasticemail:elasticemail:4.0.16"
+
+    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
+    implementation 'com.sun.mail:javax.mail:1.5.6'
+
+    // https://mvnrepository.com/artifact/javax.activation/activation
+    implementation 'javax.activation:activation:1.1.1'
+
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'

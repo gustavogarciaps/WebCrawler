@@ -1,6 +1,6 @@
 package view
 
-class MenuPrincipal {
+class MenuMain {
 
     static Scanner scanner = new Scanner(System.in)
 
@@ -20,7 +20,7 @@ class MenuPrincipal {
                     MenuCrawler.exibir()
                     break
                 case 2:
-
+                    MenuMail.exibir()
                     break
                 case 3:
                     return

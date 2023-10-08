@@ -1,8 +1,8 @@
-import view.MenuPrincipal
+import view.MenuMain
 
 class App {
 
     static void main(args) {
-        MenuPrincipal.exibir()
+        MenuMain.exibir()
     }
 }

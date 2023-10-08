@@ -6,8 +6,6 @@ import org.jsoup.nodes.Element
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-import java.nio.charset.StandardCharsets
-
 import static groovyx.net.http.HttpBuilder.configure
 
 class CrawlerTISSService {
