@@ -25,8 +25,10 @@ class CrawlerTISSService {
         try {
             configure {
                 request.uri = url
+                println("Obtendo url... ${url}")
             }.get {
                 response.success { resp, reader ->
+                    println("Criando documento...")
                     def directoryPath = "downloads/${path.split(".zip")[0]}"
 
                     def directory = new File(directoryPath)
@@ -36,10 +38,10 @@ class CrawlerTISSService {
 
                     def outputStream = new FileOutputStream(outputFile)
                     outputStream << reader
+
                     outputStream.close()
 
-                    println "Caminho do Arquivo: file://${outputFile.absolutePath}"
-
+                    println "file://${outputFile.absolutePath}"
                 }
             }
         } catch (Exception e) {

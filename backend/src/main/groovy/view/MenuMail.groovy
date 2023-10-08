@@ -1,8 +1,5 @@
 package view
 
-import model.ComponenteTISS
-import org.jsoup.nodes.Document
-import service.CrawlerTISSService
 import utils.MailUtils
 
 class MenuMail {

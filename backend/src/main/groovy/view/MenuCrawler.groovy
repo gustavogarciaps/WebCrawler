@@ -19,7 +19,10 @@ class MenuCrawler {
             println("1. Download Componente de Comunicação")
             println("2. Visualizar Histórico de Versões")
             println("3. Download Tabela de Erros no Envio ANS")
-            println("4. Sair")
+            println("4. Download Componente de Segurança e Privacidade")
+            println("5. Download Componente TUSS")
+            println("6. Download Componente de Conteúdo e Estrutura")
+            println("7. sair")
 
             int opcaoMenu = scanner.nextInt()
             scanner.nextLine()
@@ -37,10 +40,22 @@ class MenuCrawler {
                     CrawlerTISSService.writeLineByLine(componenteTISS)
                     break
                 case 3:
-                    println("Download da Tabela de Erro ANS...")
+                    println("Iniciando download da Tabela de Erro ANS...")
                     downloadTableErrorANS()
                     break
                 case 4:
+                    println("Iniciando download Componente de Segurança e Privacidade...")
+                    downloadSecurityPrivaceComponent()
+                    break
+                case 5:
+                    println("Iniciando download TUSS...")
+                    downloadTUSSComponent()
+                    break
+                case 6:
+                    println("Iniciando download Componente de Conteúdo e Estrutura...")
+                    downloadContentStructureComponent()
+                    break
+                case 7:
                     return
                     break
                 default:
@@ -61,6 +76,43 @@ class MenuCrawler {
         String href = td.select("a").attr("href")
 
         CrawlerTISSService.downloadFile(href)
+    }
+
+    static void downloadSecurityPrivaceComponent() {
+
+        String url = CrawlerTISSService.getUrl("p.callout:nth-of-type(3) a.external-link", URL_MAIN)
+        Document document = CrawlerTISSService.getConnect(url)
+
+        Element tr = document.select("table tr:nth-of-type(4)").first()
+        Element td = tr.select("td:nth-of-type(3)").first()
+        String href = td.select("a").attr("href")
+
+        CrawlerTISSService.downloadFile(href)
+    }
+
+    static void downloadTUSSComponent() {
+
+        String url = CrawlerTISSService.getUrl("p.callout:nth-of-type(3) a.external-link", URL_MAIN)
+        Document document = CrawlerTISSService.getConnect(url)
+
+        Element tr = document.select("table tr:nth-of-type(3)").first()
+        Element td = tr.select("td:nth-of-type(3)").first()
+        String href = td.select("a").attr("href")
+
+        CrawlerTISSService.downloadFile(href)
+    }
+
+    static void downloadContentStructureComponent() {
+
+        String url = CrawlerTISSService.getUrl("p.callout:nth-of-type(3) a.external-link", URL_MAIN)
+        Document document = CrawlerTISSService.getConnect(url)
+
+        Element tr = document.select("table tr:nth-of-type(2)").first()
+        Element td = tr.select("td:nth-of-type(3)").first()
+        String href = td.select("a").attr("href")
+
+        CrawlerTISSService.downloadFile(href)
+
     }
 
     static void downloadTableErrorANS() {
