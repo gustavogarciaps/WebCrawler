@@ -26,21 +26,25 @@ class MenuCrawler {
 
             switch (opcaoMenu) {
                 case 1:
+                    println("Iniciando download do Componente de Comunicação...")
                     downloadCommunicationComponent()
                     break
                 case 2:
-                    def url = CrawlerTISSService.getUrl("p.callout:nth-of-type(4) a.external-link", URL_MAIN)
+                    println("Criando tabela com histórico de Versões...")
+                    String url = CrawlerTISSService.getUrl("p.callout:nth-of-type(4) a.external-link", URL_MAIN)
                     Document document = CrawlerTISSService.getConnect(url)
-                    versionHistory(document)
+                    ArrayList<ComponenteTISS> componenteTISS = versionHistory(document)
+                    CrawlerTISSService.writeLineByLine(componenteTISS)
                     break
                 case 3:
+                    println("Download da Tabela de Erro ANS...")
                     downloadTableErrorANS()
                     break
                 case 4:
                     return
                     break
                 default:
-
+                    println("Opção não disponível")
                     break
             }
         }
@@ -70,7 +74,9 @@ class MenuCrawler {
         CrawlerTISSService.downloadFile(href)
     }
 
-    static void versionHistory(Document document) {
+    static ArrayList<ComponenteTISS> versionHistory(Document document) {
+
+        ArrayList<ComponenteTISS> componenteTISS = new ArrayList<>();
 
         for (Element row in document.select("table tbody tr")) {
 
@@ -79,10 +85,11 @@ class MenuCrawler {
             LocalDate beginning = dateConversion(row.select("td:nth-of-type(3)").text())
 
             if (referenceDate >= LocalDate.of(2016, 1, 1)) {
-                println(new ComponenteTISS(referenceDate,
+                componenteTISS.add(new ComponenteTISS(referenceDate,
                         publication, beginning))
             }
         }
+        return componenteTISS
     }
 
 
